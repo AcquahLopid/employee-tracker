@@ -78,19 +78,26 @@ function runProgram(){
             })
        })
     }
-if (answer.task ="Add Role")
-inquirer
-.prompt (T
-type: "input"
-names title",
-message: "What is the role title?",
-type:"input"
-name: salary",
-message: "What 1s the role salary?"
-type: "1ist",
-name: "department_1d",
-message: "What 1s the department ID?,
-choices ("1", "2","3","4"]
-1)
-then(function(data)
-connection .query(° INSERT INTO role (title, salary, department_1d) VALUES ("S(data.title)", ${data.salary), ${data. department id}), function (err, result)
+    if (answer.task === "Add Role"){
+
+        inquirer
+        .prompt([
+            {
+            type: "input",
+            names: "title",
+            message: "What is the title?"
+            },{
+            type:"input",
+            name: "salary",
+            message: "What is the salary?"
+            },{
+            type: "list",
+            name: "department_id",
+            message: "What is the department ID?",
+            choices: ["1", "2","3","4"]
+            },
+        ])
+        .then(function(data){
+            connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${data.title}", "${data.salary}", ${data.department_id})`, function (err, result){
+                
+            }
