@@ -102,4 +102,37 @@ function runProgram(){
                 if (err) throw err;
                     console.table(result);
                     runProgram();
+            })
+        })
+    }
+    if (answer.task === "Add Employee"){
+
+        inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "first_name",
+                message: "Enter first name"
+            },{
+                type: "input",
+                name: "last_name",
+                message: "Enter last name"
+            },{
+                type: "input",
+                name: "role_id",
+                message: "Whats their role?",
+                choices: Object.keys(roles).map(key =>({
+                    name: `${roles[key]} (${key})`,
+                    value: key
+                }))
+            },{
+                type: "input",
+                name: "manager_id",
+                message: "Whats the manager id?",
+                choices: ["1","2","3","4"]
             }
+        ])
+        .then(function(data){
+            
+        })
+    }
