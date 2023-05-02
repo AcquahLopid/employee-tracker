@@ -99,5 +99,7 @@ function runProgram(){
         ])
         .then(function(data){
             connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${data.title}", "${data.salary}", ${data.department_id})`, function (err, result){
-                
+                if (err) throw err;
+                    console.table(result);
+                    runProgram();
             }
