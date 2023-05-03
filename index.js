@@ -11,13 +11,13 @@ const connection = mysql.createConnection({
 
 const roles = { 
 
-    1: "Sales Lead",
-    2: "Salesperson",
-    3: "Lead Engineer",
+    1: "Project Manager",
+    2: "Sales representative",
+    3: "Product manager",
     4: "Software Engineer",
-    5: "Account Manager",
+    5: "Business analyst",
     6: "Accountant",
-    7: "Legal Team Lead",
+    7: "Executive",
     8: "Lawyer"
 };
 
@@ -32,23 +32,23 @@ function runProgram(){
         "View All Employees",
         "Add Employee",
         "Update Employee Role",
-         "View All Roles",
+        "View All Roles",
         "Add Role",
-        "view All Departments",
+        "View All Departments",
         "Add Department",
         "Update Employee Role",
         "Exit"]
     })
     .then(function(answer){
         console.log(answer)
-    if (answer.task === "View All Enployees"){
+    if (answer.task === "View All Employees"){
         connection.query("SELECT * FROM employee INNER JOIN role ON emp1oyee.role_id = role.id", function (err, result){
             if (err) throw err;
             console.table (result);
             runProgram()
         })
     }
-    if (answer.task === "View All Deparments"){
+    if (answer.task === "View All Departments"){
         connection.query("SELECT * FROM department", function (err, result){
             if (err) throw err;
             console.table (result);
@@ -84,7 +84,7 @@ function runProgram(){
         .prompt([
             {
             type: "input",
-            names: "title",
+            name: "title",
             message: "What is the title?"
             },{
             type:"input",
@@ -133,6 +133,55 @@ function runProgram(){
             }
         ])
         .then(function(data){
-            
+            const roleId = data.role_id;
+            connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${data.first_name}"), ("${data.last_name}"), ${roleId}, ${data.manager_id})`,
+            function(err, result) {
+                if (err) throw err;
+                console.table(result);
+                runProgram()
+            })
+        })
+
+    }
+    if (answer.task === "Update Employee Role") {
+            connection.query("SELECT id, CONCAT (first_name,'', last_name) AS name FROM employee", function (err, result) {
+            if (err) throw err;
+
+            inquirer
+            .prompt({
+                types: "list",
+                name: "employeeId",
+                message: "Which employee would you like to update?",
+                choices: result.map(row => ({ name: row.name, velue: row.id }))
+            })
+            .then(function (employeeAnswer) {
+                connection.query("SELECT * FROM role", function(err, result) {
+                if (err) throw err;
+
+                inquirer
+                .prompt({
+                    type: "list",
+                    name: "roleId",
+                    messages: "What is the new role?",
+                    choices: result.map(row => ({ name: row.title, value: row.id }))
+                })
+                .then(function (roleAnswer) {
+                    connection.query(` UPDATE employee SET role_id = ${roleAnswer.roleid} WHERE id = ${employeeAnswer.employeeId}`, function (err, result){
+                    if (err) throw err;
+                    console.log(`Updated employee`);
+                    runProgram();
+                });
+            });
+        });
+       });
+    });
+} 
+    
+            if (answer.task === "Exit"){
+                connection.end();
+                process.exit(0);
+            }
         })
     }
+runProgram();
+    
