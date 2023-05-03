@@ -25,10 +25,10 @@ function runProgram(){
 
     inquirer
     .prompt({
-        types: "list",
+        type: "list",
         name: "task",
         message: "What do you want to do?",
-        choicess: [
+        choices: [
         "View All Employees",
         "Add Employee",
         "Update Employee Role",
