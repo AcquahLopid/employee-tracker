@@ -25,6 +25,10 @@
 ## Description
 This application
 
+## Video
+
+[Video of the terminal](./Video/module%2012%20recording.mp4)
+
 ## Code Snippet
 This is a view of all the prompts I made and one example if a prompt is used. in this case viewing all employees. it either diplays the table of employees or ir throws an error if the request isnt valid.
 
